@@ -1,3 +1,5 @@
+use std::io::{self, BufRead};
+
 fn main() {
     //Read in from input
     let reader = io::stdin();
@@ -12,7 +14,7 @@ fn main() {
               .collect();                       // (5)
 
 
-    let numbers1: Vec<i64> =
+    let numbers1: Vec<i32> =
         reader.lock()                           // (0)
               .lines().next().unwrap().unwrap() // (1)
               .split(' ').map(|s| s.trim())     // (2)
@@ -20,8 +22,23 @@ fn main() {
               .map(|s| s.parse().unwrap())      // (4)
               .collect();
 
-    //sum all numbers in an array
-    let sum = numbers1.iter().fold(0,|a, &b| a + b);
+    let mut pos: f32= 0;    //Initilize score for Alice
+    let mut neg: f32 = 0;    //Initilize score for Bob
+    let mut zero: f32 = 0;    //Initilize score for Bob
+    let length: f32 = numbers1.len();
+     //compare all numbers in the array
+    for b in 0..numbers1.len() {
+        if numbers1[b] == 0 {
+            zero = zero + 1;
+        } else if numbers1[b] > 0 {
+            pos = pos+1;
+        } else if numbers1[b] < 0 {
+            neg = neg+1;
+        }
+    }
 
-    println!("{}",sum);
+
+    println!("{}", pos/length);
+    println!("{}", neg/length);
+    println!("{}", zero/length);
 }
